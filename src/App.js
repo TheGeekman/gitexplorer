@@ -1,26 +1,26 @@
-import React, { Component } from 'react';
-import { Footer, Nav } from 'components';
-import Typist from 'react-typist';
-import { isMobile } from 'react-device-detect';
-import { optionsFirst, optionsSecond, optionsThird } from 'data';
-import Select from 'react-select';
-import clipboard from 'assets/images/clipboard.svg';
-import classnames from 'classnames';
+import React, { Component } from "react";
+import { Footer, Nav } from "components";
+import Typist from "react-typist";
+import { isMobile } from "react-device-detect";
+import { optionsFirst, optionsSecond, optionsThird } from "data";
+import Select from "react-select";
+import clipboard from "assets/images/clipboard.svg";
+import classnames from "classnames";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dark: JSON.parse(localStorage.getItem('dark')) || false,
-      fastType: JSON.parse(localStorage.getItem('fastType')) || false,
+      dark: JSON.parse(localStorage.getItem("dark")) || false,
+      fastType: JSON.parse(localStorage.getItem("fastType")) || false,
       firstOption: null,
       showSecond: false,
       secondOption: null,
       showThird: false,
       thirdOption: null,
-      nb: '',
-      usage: '',
-      copied: false
+      nb: "",
+      usage: "",
+      copied: false,
     };
   }
 
@@ -28,7 +28,7 @@ class App extends Component {
     const { id } = evt.target;
 
     this.setState(
-      prevState => ({ [id]: !prevState[id] }),
+      (prevState) => ({ [id]: !prevState[id] }),
       () => {
         localStorage.setItem(id, this.state[id]);
       }
@@ -42,8 +42,8 @@ class App extends Component {
         showSecond: true,
         secondOption: null,
         showThird: false,
-        nb: '',
-        usage: ''
+        nb: "",
+        usage: "",
       });
     } else if (optionsSecond[selectedOption.value].length === 1) {
       this.setState({ firstOption: selectedOption, showSecond: true });
@@ -55,13 +55,13 @@ class App extends Component {
 
   onSecondChange = (selectedOption) => {
     if (selectedOption.usage) {
-      this.setState({ nb: '', usage: '' }, () => {
+      this.setState({ nb: "", usage: "" }, () => {
         this.setState({
           secondOption: selectedOption,
           showThird: false,
           nb: selectedOption.nb,
           usage: selectedOption.usage,
-          thirdOption: null
+          thirdOption: null,
         });
       });
     } else if (optionsThird[selectedOption.value].length === 1) {
@@ -69,8 +69,8 @@ class App extends Component {
         secondOption: selectedOption,
         showThird: true,
         thirdOption: null,
-        nb: '',
-        usage: ''
+        nb: "",
+        usage: "",
       });
       this.onThirdChange(optionsThird[selectedOption.value][0]);
     } else {
@@ -78,18 +78,18 @@ class App extends Component {
         secondOption: selectedOption,
         showThird: true,
         thirdOption: null,
-        nb: '',
-        usage: ''
+        nb: "",
+        usage: "",
       });
     }
   };
 
   onThirdChange = (selectedOption) => {
-    this.setState({ nb: '', usage: '' }, () => {
+    this.setState({ nb: "", usage: "" }, () => {
       this.setState({
         thirdOption: selectedOption,
         nb: selectedOption.nb,
-        usage: selectedOption.usage
+        usage: selectedOption.usage,
       });
     });
   };
@@ -106,17 +106,18 @@ class App extends Component {
   };
 
   copyUsage = () => {
-    const el = document.createElement('textarea');
+    const el = document.createElement("textarea");
     el.value = this.state.usage;
-    el.setAttribute('readonly', '');
-    el.style.position = 'absolute';
-    el.style.left = '-9999px';
+    el.setAttribute("readonly", "");
+    el.style.position = "absolute";
+    el.style.left = "-9999px";
     document.body.appendChild(el);
-    const selected = document.getSelection().rangeCount > 0
-      ? document.getSelection().getRangeAt(0)
-      : false;
+    const selected =
+      document.getSelection().rangeCount > 0
+        ? document.getSelection().getRangeAt(0)
+        : false;
     el.select();
-    document.execCommand('copy');
+    document.execCommand("copy");
     document.body.removeChild(el);
     this.onCopy();
 
@@ -137,22 +138,23 @@ class App extends Component {
       fastType,
       nb,
       usage,
-      copied
+      copied,
     } = this.state;
     const avgTypingDelay = fastType ? 0 : 50;
 
     return (
-      <div className={classnames('home', { dark })}>
+      <div className={classnames("home", { dark })}>
         <div className="container home__container">
           <Nav mode={dark} onToggle={this.handleToggle} fastType={fastType} />
           <div className="content">
             <div className="row">
               <div className="col-5">
                 <h2 className="content__title  dark-white">
-                  Git <span>Command</span> Explorer
+                  Git <span>Command</span> Helper
                 </h2>
                 <p className="content__subtitle dark-grey">
-                  Find the right commands you need without digging through the web.
+                  Find the right commands you need without digging through the
+                  web.
                 </p>
 
                 <div className="options">
@@ -195,13 +197,18 @@ class App extends Component {
               </div>
               <div className="col-7 boards">
                 <div
-                  className={`board__group board__group--1 ${isMobile && !usage ? ' d-none' : ''}`}
+                  className={`board__group board__group--1 ${
+                    isMobile && !usage ? " d-none" : ""
+                  }`}
                 >
                   <h2 className="board__title  dark-white">Usage</h2>
                   <div className="board board--1">
                     <pre>
                       {usage.length ? (
-                        <Typist avgTypingDelay={avgTypingDelay} cursor={{ show: false }}>
+                        <Typist
+                          avgTypingDelay={avgTypingDelay}
+                          cursor={{ show: false }}
+                        >
                           {usage}
                         </Typist>
                       ) : (
@@ -210,7 +217,9 @@ class App extends Component {
                     </pre>
                     {usage.length ? (
                       <div className="copy">
-                        <span className={`copy__popover ${copied ? 'show' : ''}`}>
+                        <span
+                          className={`copy__popover ${copied ? "show" : ""}`}
+                        >
                           command copied
                         </span>
                         <img
@@ -228,7 +237,10 @@ class App extends Component {
                       <h2 className="board__title  dark-white">Note</h2>
                       <div className="board board--2">
                         <pre>
-                          <Typist avgTypingDelay={avgTypingDelay} cursor={{ show: false }}>
+                          <Typist
+                            avgTypingDelay={avgTypingDelay}
+                            cursor={{ show: false }}
+                          >
                             {nb}
                           </Typist>
                         </pre>
