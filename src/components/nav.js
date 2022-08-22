@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Toggle from './toggle';
+import React from "react";
+import PropTypes from "prop-types";
+import Toggle from "./toggle";
 
 const Nav = ({ fastType, mode, onToggle }) => (
   <nav className="nav">
-    <Toggle
+    {/* <Toggle
       checked={fastType}
       leftLabel="Normal type speed"
       name="fastType"
@@ -17,7 +17,7 @@ const Nav = ({ fastType, mode, onToggle }) => (
       name="dark"
       onChange={onToggle}
       rightLabel="Dark Mode"
-    />
+    /> */}
   </nav>
 );
 
